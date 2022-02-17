@@ -1,61 +1,87 @@
 ﻿using GestaoProdutos.Dominio.Entity;
-using GestaoProdutos.Dominio.Repositorio.Interfaces;
-using GestaoProdutos.Services;
+using GestaoProdutos.Dominio.Objetos;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace GestaoProdutos.Infrastructure.Data.Repositorios
 {
-    public class ProdutosRepositorios : IRepositorioProdutos
+    public class ProdutosRepositorios
     {
         protected readonly SqlContext sqlContext;
-        //private readonly ProdutoServices produtoServices;
+        private DbSet<Produtos> dataset;
+
         public ProdutosRepositorios(SqlContext sqlContext)
         {
             this.sqlContext = sqlContext;
-            //this.produtoServices = produtoServices;
+            this.dataset = sqlContext.Set<Produtos>();
         }
 
-        public Task<Produtos> Editar(Produtos entidade)
+        public async Task<bool> Editar(Produtos entidade)
         {
-            throw new NotImplementedException();
+            try
+            {
+                sqlContext.Update(entidade);
+                await sqlContext.SaveChangesAsync();
+                return true;
+            }
+            catch (Exception erro)
+            {
+                throw erro;
+            }
         }
 
         public async Task<bool> Inserir(Produtos entidade)
         {
             try
             {
-                await sqlContext.AddAsync(entidade);
+                await dataset.AddAsync(entidade);
+                //await sqlContext.AddAsync(entidade);
                 await sqlContext.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (Exception erro)
             {
-                throw ex;
+                throw erro;
             }
         }
 
-        public Task<IEnumerable<Produtos>> ListaRegistros()
+        public async Task<IEnumerable<Produtos>> ListaRegistros()
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await dataset.ToListAsync();
+            }
+            catch (Exception erro)
+            {
+                throw erro;
+            }
         }
 
-        public Task<Produtos> RecuperarRegistroPorCodigo(int id)
+        public async Task<Produtos> RecuperarRegistroPorCodigo(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await dataset.SingleOrDefaultAsync(x => x.Id == id);
+            }
+            catch (Exception erro)
+            {
+                throw erro;
+            }
         }
 
-        public Task<bool> RemoveProduto(int id)
+        public async Task<bool> RemoveProduto(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool ValidaDataFabricacao(DateTime data_fabricacao, DateTime data_validade)
-        {
-            throw new NotImplementedException();
+            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+            if (result == null)
+            {
+                return false;
+            }
+            result.situacaoProduto = Situacoes.Inativo;
+            sqlContext.Entry(result).OriginalValues.SetValues(sqlContext.Entry(result).CurrentValues);
+            await sqlContext.SaveChangesAsync();
+            return true;
         }
     }
 }

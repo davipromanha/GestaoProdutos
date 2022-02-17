@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GestaoProdutos.Repositorio\GestaoProdutos.Dominio.Repositorio.csproj" />
+    <ProjectReference Include="..\GestaoProdutos.Infrastructure\GestaoProdutos.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

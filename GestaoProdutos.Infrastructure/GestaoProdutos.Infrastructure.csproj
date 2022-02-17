@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\GestaoProdutos.Domain\GestaoProdutos.Dominio.csproj" />
-    <ProjectReference Include="..\GestaoProdutos.Services\GestaoProdutos.Services.csproj" />
   </ItemGroup>
 
 </Project>
