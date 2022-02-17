@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestaoProdutos.Repositorio\GestaoProdutos.Dominio.Repositorio.csproj" />
+    <ProjectReference Include="..\GestaoProdutos.Services\GestaoProdutos.Services.csproj" />
+  </ItemGroup>
+
+</Project>
