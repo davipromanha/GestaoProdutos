@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace GestaoProdutos.Dominio.Repositorio.Interfaces
+namespace GestaoProdutos.Dominio.Repositorio.Interfaces.Services
 {
     public interface IServicoComum<T> where T : class
     {

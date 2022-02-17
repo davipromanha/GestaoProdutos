@@ -6,7 +6,7 @@ namespace GestaoProdutos.Dominio.Repositorio.Interfaces
 {
     public interface IRepositorioProdutos : IRepositorioComum<Produtos>
     {
-        Task<Produtos> Inserir(Produtos entidade);
+        Task<bool> Inserir(Produtos entidade);
 
         Task<Produtos> Editar(Produtos entidade);
 
