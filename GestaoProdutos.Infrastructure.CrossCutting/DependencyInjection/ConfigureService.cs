@@ -1,5 +1,4 @@
 ﻿using GestaoProdutos.Dominio.Repositorio.Interfaces.Services;
-using GestaoProdutos.Infrastructure.Data.Repositorios;
 using GestaoProdutos.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,7 +8,8 @@ namespace GestaoProdutos.Infrastructure.CrossCutting.DependencyInjection
     {
         public static void ConfigureDependenciesService(IServiceCollection serviceCollection)
         {
-            serviceCollection.AddScoped<IServicoProdutos, ProdutoServices>();
+            serviceCollection.AddTransient<IServicoProdutos, ProdutoServices>();
+
         }
     }
 }

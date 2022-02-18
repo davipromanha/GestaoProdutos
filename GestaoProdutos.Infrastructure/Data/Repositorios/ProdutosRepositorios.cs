@@ -1,5 +1,6 @@
 ﻿using GestaoProdutos.Dominio.Entity;
 using GestaoProdutos.Dominio.Objetos;
+using GestaoProdutos.Dominio.Repositorio.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GestaoProdutos.Infrastructure.Data.Repositorios
 {
-    public class ProdutosRepositorios
+    public class ProdutosRepositorios : IRepositorioProdutos
     {
         protected readonly SqlContext sqlContext;
         private DbSet<Produtos> dataset;
@@ -18,13 +19,13 @@ namespace GestaoProdutos.Infrastructure.Data.Repositorios
             this.dataset = sqlContext.Set<Produtos>();
         }
 
-        public async Task<bool> Editar(Produtos entidade)
+        public async Task<Produtos> Editar(Produtos entidade)
         {
             try
             {
                 sqlContext.Update(entidade);
                 await sqlContext.SaveChangesAsync();
-                return true;
+                return entidade;
             }
             catch (Exception erro)
             {
@@ -82,6 +83,15 @@ namespace GestaoProdutos.Infrastructure.Data.Repositorios
             sqlContext.Entry(result).OriginalValues.SetValues(sqlContext.Entry(result).CurrentValues);
             await sqlContext.SaveChangesAsync();
             return true;
+        }
+
+        public bool ValidaDataFabricacao(DateTime data_fabricacao, DateTime data_validade)
+        {
+            if (data_fabricacao < data_validade)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }

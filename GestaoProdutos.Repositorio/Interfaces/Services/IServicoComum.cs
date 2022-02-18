@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using GestaoProdutos.Dominio.Entity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace GestaoProdutos.Dominio.Repositorio.Interfaces.Services
 {
-    public interface IServicoComum<T> where T : class
+    public interface IServicoComum<T> where T : Produtos
     {
         Task<IEnumerable<T>> GetAll();
 

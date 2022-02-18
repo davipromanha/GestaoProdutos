@@ -28,7 +28,9 @@ namespace GestaoProdutos.Application
         public void ConfigureServices(IServiceCollection services)
         {
             ConfigureService.ConfigureDependenciesService(services);
-            ConfigureRepository.ConfigureDependenciesRepository(services, this.Configuration);
+            ConfigureRepository.ConfigureDependenciesRepository(services);
+            ConfigureRepository.ConfigureStringConection(services, this.Configuration);
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

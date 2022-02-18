@@ -8,7 +8,7 @@ namespace GestaoProdutos.Dominio.Repositorio.Interfaces.Services
     {
         Task<bool> Post(Produtos entidade);
 
-        Task<bool> Put(Produtos entidade);
+        Task<Produtos> Put(Produtos entidade);
 
         Task<bool> Put(int id);
 

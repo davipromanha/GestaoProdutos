@@ -1,6 +1,6 @@
 ﻿using GestaoProdutos.Dominio.Entity;
+using GestaoProdutos.Dominio.Repositorio.Interfaces;
 using GestaoProdutos.Dominio.Repositorio.Interfaces.Services;
-using GestaoProdutos.Infrastructure.Data.Repositorios;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -9,45 +9,45 @@ namespace GestaoProdutos.Services
 {
     public class ProdutoServices : IServicoProdutos
     {
-        private readonly ProdutosRepositorios produtosRepositorios;
+        private IRepositorioProdutos repositorioProdutos;
 
-        public ProdutoServices(ProdutosRepositorios produtosRepositorios)
+        public ProdutoServices(IRepositorioProdutos repositorio)
         {
-            this.produtosRepositorios = produtosRepositorios;
+            this.repositorioProdutos = repositorio;
         }
 
         public async Task<Produtos> Get(int id)
         {
-            return await produtosRepositorios.RecuperarRegistroPorCodigo(id);
+            return await repositorioProdutos.RecuperarRegistroPorCodigo(id);
         }
 
         public async Task<IEnumerable<Produtos>> GetAll()
         {
-            return await produtosRepositorios.ListaRegistros();
+            return await repositorioProdutos.ListaRegistros();
         }
 
         public async Task<bool> Post(Produtos entidade)
         {
             if (ValidaDataFabricacao(entidade.DataFabricao, entidade.DataValidade)) 
             {
-                return await produtosRepositorios.Inserir(entidade);
+                return await repositorioProdutos.Inserir(entidade);
             }
             return false;            
         }
 
-        public async Task<bool> Put(Produtos entidade)
+        public async Task<Produtos> Put(Produtos entidade)
         {
             if (ValidaDataFabricacao(entidade.DataFabricao, entidade.DataValidade))
             {
-                return await produtosRepositorios.Editar(entidade);
+                return await repositorioProdutos.Editar(entidade);
             }
-            return false;
+            return null;
             
         }
 
         public async Task<bool> Put(int id)
         {
-            return await produtosRepositorios.RemoveProduto(id);
+            return await repositorioProdutos.RemoveProduto(id);
         }
 
         public bool ValidaDataFabricacao(DateTime data_fabricacao, DateTime data_validade)
