@@ -26,13 +26,13 @@ namespace GestaoProdutos.Services
             return await repositorioProdutos.ListaRegistros();
         }
 
-        public async Task<bool> Post(Produtos entidade)
+        public async Task<Produtos> Post(Produtos entidade)
         {
-            if (ValidaDataFabricacao(entidade.DataFabricao, entidade.DataValidade)) 
+            if (ValidaDataFabricacao(entidade.DataFabricao, entidade.DataValidade))
             {
                 return await repositorioProdutos.Inserir(entidade);
             }
-            return false;            
+            return null;
         }
 
         public async Task<Produtos> Put(Produtos entidade)
@@ -42,10 +42,9 @@ namespace GestaoProdutos.Services
                 return await repositorioProdutos.Editar(entidade);
             }
             return null;
-            
         }
 
-        public async Task<bool> Put(int id)
+        public async Task<Produtos> Put(int id)
         {
             return await repositorioProdutos.RemoveProduto(id);
         }

@@ -6,11 +6,11 @@ namespace GestaoProdutos.Dominio.Repositorio.Interfaces.Services
 {
     public interface IServicoProdutos : IServicoComum<Produtos>
     {
-        Task<bool> Post(Produtos entidade);
+        Task<Produtos> Post(Produtos entidade);
 
         Task<Produtos> Put(Produtos entidade);
 
-        Task<bool> Put(int id);
+        Task<Produtos> Put(int id);
 
         bool ValidaDataFabricacao(DateTime data_fabricacao, DateTime data_validade);
     }

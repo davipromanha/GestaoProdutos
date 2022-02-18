@@ -33,14 +33,14 @@ namespace GestaoProdutos.Infrastructure.Data.Repositorios
             }
         }
 
-        public async Task<bool> Inserir(Produtos entidade)
+        public async Task<Produtos> Inserir(Produtos entidade)
         {
             try
             {
                 await dataset.AddAsync(entidade);
                 //await sqlContext.AddAsync(entidade);
                 await sqlContext.SaveChangesAsync();
-                return true;
+                return entidade;
             }
             catch (Exception erro)
             {
@@ -72,17 +72,24 @@ namespace GestaoProdutos.Infrastructure.Data.Repositorios
             }
         }
 
-        public async Task<bool> RemoveProduto(int id)
+        public async Task<Produtos> RemoveProduto(int id)
         {
-            var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
-            if (result == null)
+            try
             {
-                return false;
+                var result = await dataset.SingleOrDefaultAsync(p => p.Id.Equals(id));
+                if (result == null)
+                {
+                    return null;
+                }
+                result.situacaoProduto = Situacoes.Inativo;
+                sqlContext.Entry(result).OriginalValues.SetValues(sqlContext.Entry(result).CurrentValues);
+                await sqlContext.SaveChangesAsync();
+                return result;
             }
-            result.situacaoProduto = Situacoes.Inativo;
-            sqlContext.Entry(result).OriginalValues.SetValues(sqlContext.Entry(result).CurrentValues);
-            await sqlContext.SaveChangesAsync();
-            return true;
+            catch (Exception erro)
+            {
+                throw erro;
+            }
         }
 
         public bool ValidaDataFabricacao(DateTime data_fabricacao, DateTime data_validade)
